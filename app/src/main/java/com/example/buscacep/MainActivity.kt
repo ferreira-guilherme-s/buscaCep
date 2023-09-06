@@ -1,20 +1,21 @@
 package com.example.buscacep
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.buscacep.api.EnderecoAPI
 import com.example.buscacep.api.RetrofitHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import retrofit2.Response
-import android.util.Log
-import android.widget.TextView
 import com.example.buscacep.model.Endereco
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
+import retrofit2.Response
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,8 +38,14 @@ class MainActivity : AppCompatActivity() {
                     val endereco = recuperarEndereco(cep)
                     runOnUiThread {
                         openDialog(endereco)
+                        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                        if (imm.isActive) imm.toggleSoftInput(
+                            InputMethodManager.HIDE_IMPLICIT_ONLY,
+                            0
+                        )
                     }
                 }
+
             }
         }
 
